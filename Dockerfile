@@ -14,90 +14,58 @@
 
 # ---------------------------------------------------------------------------- #
 
-FROM debian:stretch AS base
+FROM debian:stretch-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    LANG=C.UTF-8
+    LANG=C.UTF-8 \
+    NODE_VERSION=10.11.0 \
+    CC=gcc \
+    CXX=g++
 
 RUN dpkg --add-architecture armhf
 RUN dpkg --add-architecture amd64
 
 RUN apt-get update && \
+    \
     apt-get install -y --no-install-recommends \
-        apt-utils \
-        ca-certificates>=20161130 \
-        git>=1:2.11.0-3 \
-        curl>=7.52.1-5
-
-# ---------------------------------------------------------------------------- #
-
-FROM base AS node
-
-ENV DEBIAN_FRONTEND=noninteractive \
-    LANG=C.UTF-8 \
-    NODE_VERSION=10.11.0
-
-RUN apt-get install -y --no-install-recommends \
-        tar=1.29b-1.1
-
-RUN curl -L "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" \
-    -# \
-    -o /tmp/node-pkg.tar.gz && \
+      apt-utils \
+      ca-certificates>=20161130 \
+      && \
     \
-    tar -C /tmp -xzf /tmp/node-pkg.tar.gz && \
-    cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/bin/." /usr/local/bin/ && \
-    cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/lib/." /usr/local/lib/ && \
-    cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/include/." /usr/local/include/
-
-# ---------------------------------------------------------------------------- #
-
-FROM base
-
-ENV DEBIAN_FRONTEND=noninteractive \
-    LANG=C.UTF-8 \
-    LIBRARY_PATH=/usr/lib \
-    LD_LIBRARY_PATH=/usr/lib \
-    CC=gcc \
-    CXX=g++
-
-RUN apt-get install -y --no-install-recommends \
+    apt-get -y install --no-install-recommends \
+      git>=1:2.11.0-3 \
+      curl>=7.52.1-5 \
+      tar=1.29b-1.1 \
+      make=4.1-9.1 \
+      cmake=3.7.2-1 \
+      patch>=2.7.5-1 \
+      python=2.7.13-2 \
+      debhelper=10.2.5 \
+      config-package-dev=5.1.2 \
+      fakeroot=1.21-3.1 \
+      pkg-config>=0.29-4 \
+      libsystemd-dev \
+      gcc \
+      gcc-arm-linux-gnueabi \
+      gcc-arm-linux-gnueabihf \
+      g++ \
+      g++-arm-linux-gnueabi \
+      g++-arm-linux-gnueabihf \
+      libc6 \
+      libc6-armhf-cross \
+      libc6-dev \
+      libc6-dev-armhf-cross \
+      \
+      libzmq3-dev:amd64=4.2.1-4 \
+      libzmq3-dev:armhf=4.2.1-4 \
+      && \
     \
-        cmake=3.7.2-1 \
-        make=4.1-9.1 \
-        cmake=3.7.2-1 \
-        patch>=2.7.5-1 \
-        python=2.7.13-2 \
-        debhelper=10.2.5 \
-        config-package-dev=5.1.2 \
-        fakeroot=1.21-3.1 \
-        pkg-config>=0.29-4 \
-        libsystemd-dev \
-        gcc \
-        gcc-arm-linux-gnueabi \
-        gcc-arm-linux-gnueabihf \
-        g++ \
-        g++-arm-linux-gnueabi \
-        g++-arm-linux-gnueabihf \
-        libc6 \
-        libc6-armhf-cross \
-        libc6-dev \
-        libc6-dev-armhf-cross \
+    curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" | tar xzf - -C /tmp && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/bin/." /usr/bin/ && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/lib/." /usr/lib/ && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/include/." /usr/include/ && \
     \
-        libzmq3-dev:amd64=4.2.1-4 \
-        libzmq3-dev:armhf=4.2.1-4 \
-    && \
+    sed -i s/net.ipv4.ip_forward=0/net.ipv4.ip_forward=1/ /etc/sysctl.conf && \
+    sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf && \
     \
-    apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN ln -s /usr/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm && \
-    ln -s /usr/lib/node_modules/npm/bin/npx-cli.js /usr/bin/npx
-
-RUN sed -i s/net.ipv4.ip_forward=0/net.ipv4.ip_forward=1/ /etc/sysctl.conf && \
-    sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf
-
-COPY --from=node /usr/local/bin/node /usr/bin/node
-COPY --from=node /usr/local/lib/node_modules/npm /usr/lib/node_modules/npm
-COPY --from=node /usr/local/include/node /usr/include/node
-
-# ---------------------------------------------------------------------------- #
