@@ -56,8 +56,8 @@ RUN apt-get update && \
       libc6-dev \
       libc6-dev-armhf-cross \
       \
-      libzmq3-dev:amd64=4.2.1-4 \
-      libzmq3-dev:armhf=4.2.1-4 \
+      libzmq3-dev:amd64=4.2.1-4+deb9u1 \
+      libzmq3-dev:armhf=4.2.1-4+deb9u1 \
       && \
     \
     curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" | tar xzf - -C /tmp && \
