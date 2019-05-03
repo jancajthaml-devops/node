@@ -24,6 +24,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN dpkg --add-architecture armhf
 RUN dpkg --add-architecture amd64
+RUN dpkg --add-architecture arm64
 
 RUN apt-get update && \
     \
@@ -48,16 +49,22 @@ RUN apt-get update && \
       gcc \
       gcc-arm-linux-gnueabi \
       gcc-arm-linux-gnueabihf \
+      gcc-aarch64-linux-gnu \
       g++ \
       g++-arm-linux-gnueabi \
       g++-arm-linux-gnueabihf \
+      g++-aarch64-linux-gnu \
       libc6 \
       libc6-armhf-cross \
       libc6-dev \
       libc6-dev-armhf-cross \
       \
-      libzmq3-dev:amd64=4.2.1-4+deb9u1 \
-      libzmq3-dev:armhf=4.2.1-4+deb9u1 \
+      libzmq5:amd64>=4.2.1~ \
+      libzmq5:armhf>=4.2.1~ \
+      libzmq5:arm64>=4.2.1~ \
+      libzmq3-dev:amd64>=4.2.1~ \
+      libzmq3-dev:armhf>=4.2.1~ \
+      libzmq3-dev:arm64>=4.2.1~ \
       && \
     \
     curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" | tar xzf - -C /tmp && \
@@ -69,3 +76,6 @@ RUN apt-get update && \
     sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf && \
     \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY --from=jancajthaml/jq /usr/local/bin/jq /usr/bin/jq
+COPY --from=library/docker:18.06 /usr/local/bin/docker /usr/bin/docker
