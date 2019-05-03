@@ -18,7 +18,7 @@ FROM debian:stretch-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
-    NODE_VERSION=10.11.0 \
+    NODE_VERSION=12.1.0 \
     CC=gcc \
     CXX=g++
 
