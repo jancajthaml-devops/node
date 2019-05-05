@@ -24,12 +24,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update && \
     \
-    apt-get install -y --no-install-recommends \
+    apt-get -y install --no-install-recommends \
       apt-utils \
       ca-certificates \
-      && \
-    \
-    apt-get -y install --no-install-recommends \
       git \
       curl \
       tar \
@@ -51,15 +48,16 @@ RUN apt-get update && \
       libzmq3-dev>=4.2.1~ \
       && \
     \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN \
     curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" | tar xzf - -C /tmp && \
       cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/bin/." /usr/bin/ && \
       cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/lib/." /usr/lib/ && \
       cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/include/." /usr/include/ && \
     \
     sed -i s/net.ipv4.ip_forward=0/net.ipv4.ip_forward=1/ /etc/sysctl.conf && \
-    sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf && \
-    \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf
 
 COPY --from=jancajthaml/jq /usr/local/bin/jq /usr/bin/jq
 COPY --from=arm64v8/docker:18 /usr/local/bin/docker /usr/bin/docker
