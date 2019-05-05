@@ -22,33 +22,67 @@ ENV DEBIAN_FRONTEND=noninteractive \
     CC=gcc \
     CXX=g++
 
-RUN apt-get update && \
-    \
-    apt-get -y install --no-install-recommends \
-      apt-utils \
-      ca-certificates \
-      git \
-      curl \
-      tar \
-      make \
-      cmake \
-      patch \
-      python \
-      debhelper \
-      config-package-dev \
-      fakeroot \
-      pkg-config \
-      libsystemd-dev \
-      gcc \
-      g++ \
-      libc6 \
-      libc6-dev \
-      \
-      libzmq5>=4.2.1~ \
-      libzmq3-dev>=4.2.1~ \
-      && \
-    \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update
+
+RUN apt-get -y install --no-install-recommends \
+    apt-utils
+
+RUN apt-get -y install --no-install-recommends \
+    ca-certificates
+
+RUN apt-get -y install --no-install-recommends \
+    git
+
+RUN apt-get -y install --no-install-recommends \
+    curl
+
+RUN apt-get -y install --no-install-recommends \
+    tar
+
+RUN apt-get -y install --no-install-recommends \
+    make
+
+RUN apt-get -y install --no-install-recommends \
+    cmake
+
+RUN apt-get -y install --no-install-recommends \
+    patch
+
+RUN apt-get -y install --no-install-recommends \
+    python
+
+RUN apt-get -y install --no-install-recommends \
+    debhelper
+
+RUN apt-get -y install --no-install-recommends \
+    config-package-dev
+
+RUN apt-get -y install --no-install-recommends \
+    fakeroot
+
+RUN apt-get -y install --no-install-recommends \
+    pkg-config
+
+RUN apt-get -y install --no-install-recommends \
+    libsystemd-dev
+
+RUN apt-get -y install --no-install-recommends \
+    gcc
+
+RUN apt-get -y install --no-install-recommends \
+    g++
+
+RUN apt-get -y install --no-install-recommends \
+    libc6
+
+RUN apt-get -y install --no-install-recommends \
+    libc6-dev
+
+RUN apt-get -y install --no-install-recommends \
+    libzmq5>=4.2.1~
+
+RUN apt-get -y install --no-install-recommends \
+    libzmq3-dev>=4.2.1~
 
 RUN \
     curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" | tar xzf - -C /tmp && \
