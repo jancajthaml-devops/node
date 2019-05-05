@@ -14,7 +14,7 @@
 
 # ---------------------------------------------------------------------------- #
 
-FROM arm32v7/debian:stretch-slim
+FROM arm32v7/debian:stretch
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \

@@ -14,7 +14,7 @@
 
 # ---------------------------------------------------------------------------- #
 
-FROM amd64/debian:stretch-slim
+FROM amd64/debian:stretch
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
