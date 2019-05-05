@@ -26,21 +26,21 @@ RUN apt-get update && \
     \
     apt-get install -y --no-install-recommends \
       apt-utils \
-      ca-certificates>=20161130 \
+      ca-certificates \
       && \
     \
     apt-get -y install --no-install-recommends \
-      git>=1:2.11.0-3 \
-      curl>=7.52.1-5 \
-      tar=1.29b-1.1 \
-      make=4.1-9.1 \
-      cmake=3.7.2-1 \
-      patch>=2.7.5-1 \
-      python=2.7.13-2 \
-      debhelper=10.2.5 \
-      config-package-dev=5.1.2 \
-      fakeroot=1.21-3.1 \
-      pkg-config>=0.29-4 \
+      git \
+      curl \
+      tar \
+      make \
+      cmake \
+      patch \
+      python \
+      debhelper \
+      config-package-dev \
+      fakeroot \
+      pkg-config \
       libsystemd-dev \
       gcc \
       g++ \
