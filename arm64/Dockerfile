@@ -24,20 +24,23 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update && \
     \
-    apt-get -y install --no-install-recommends \
+    apt-get install -y --no-install-recommends \
       apt-utils \
       ca-certificates \
+      && \
+    \
+    apt-get -y install --no-install-recommends \
       git \
-      curl \
       tar \
-      make \
       cmake \
+      make \
       patch \
       python \
       debhelper \
       config-package-dev \
       fakeroot \
       pkg-config \
+      lintian \
       libsystemd-dev \
       gcc \
       g++ \
