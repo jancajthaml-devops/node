@@ -54,10 +54,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN \
-    curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" | tar xzf - -C /tmp && \
-      cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/bin/." /usr/bin/ && \
-      cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/lib/." /usr/lib/ && \
-      cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/include/." /usr/include/ && \
+    curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-armv7l.tar.gz" | tar xzf - -C /tmp && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-armv7l/bin/." /usr/bin/ && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-armv7l/lib/." /usr/lib/ && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-armv7l/include/." /usr/include/ && \
     \
     sed -i s/net.ipv4.ip_forward=0/net.ipv4.ip_forward=1/ /etc/sysctl.conf && \
     sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf

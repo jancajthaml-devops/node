@@ -26,21 +26,21 @@ RUN apt-get update && \
     \
     apt-get install -y --no-install-recommends \
       apt-utils \
-      ca-certificates>=20161130 \
+      ca-certificates \
       && \
     \
     apt-get -y install --no-install-recommends \
-      git>=1:2.11.0-3 \
-      curl>=7.52.1-5 \
-      tar=1.29b-1.1 \
-      make=4.1-9.1 \
-      cmake=3.7.2-1 \
-      patch>=2.7.5-1 \
-      python=2.7.13-2 \
-      debhelper=10.2.5 \
-      config-package-dev=5.1.2 \
-      fakeroot=1.21-3.1 \
-      pkg-config>=0.29-4 \
+      git \
+      tar \
+      cmake \
+      make \
+      patch \
+      python \
+      debhelper \
+      config-package-dev \
+      fakeroot \
+      pkg-config \
+      lintian \
       libsystemd-dev \
       gcc \
       g++ \
@@ -54,10 +54,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN \
-    curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" | tar xzf - -C /tmp && \
-      cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/bin/." /usr/bin/ && \
-      cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/lib/." /usr/lib/ && \
-      cp -a "/tmp/node-v${NODE_VERSION}-linux-arm64/include/." /usr/include/ && \
+    curl -sL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" | tar xzf - -C /tmp && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/bin/." /usr/bin/ && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/lib/." /usr/lib/ && \
+      cp -a "/tmp/node-v${NODE_VERSION}-linux-x64/include/." /usr/include/ && \
     \
     sed -i s/net.ipv4.ip_forward=0/net.ipv4.ip_forward=1/ /etc/sysctl.conf && \
     sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf

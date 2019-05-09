@@ -60,3 +60,5 @@ RUN \
     sed -i s/#net.ipv4.ip_forward/net.ipv4.ip_forward/ /etc/sysctl.conf
 
 COPY --from=jancajthaml/jq /usr/local/bin/jq /usr/bin/jq
+
+ENTRYPOINT node
